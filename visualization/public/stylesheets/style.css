@@ -1,0 +1,489 @@
+/*---------------------ORIGINAL STYLESHEET-----------------------------------*/
+html, body {
+margin : 0;
+padding : 0;
+}
+body {
+font : 100% Arial, Helvetica, "Trebuchet MS", Arial, Tahoma, sans-serif;
+background : white;/*#D5DBE1;*/
+color : #555;
+}
+      /*WRAP*/
+#wrap {
+width: 100%;
+/*margin-left: auto;
+margin-right: auto;*/
+padding: 0;
+}
+      /*BANNER*/
+#masthead {
+padding: 25px 15px;
+margin-bottom: 0;
+background: #2E5C8A;/*#B5B5B5;*/
+background-size:120px;
+color: #E6E6E6;
+/*overflow:hidden;*/
+}
+
+#masthead img{
+   float:right;
+   height: 120px;
+   margin-top:-85px;
+  margin-right:-15px;
+   margin-bottom:-25px;
+}
+
+      /*MAIN CONTAINER*/
+#container {
+width: 1000px;
+margin-left: auto;
+margin-right: auto;
+padding: 0;
+line-height: 1.5em;
+overflow:hidden;
+}
+      /*TOP NAVIGATION*/
+#menu {
+background: #D5DBE1;
+padding: 0 0 30px 0;
+margin-bottom: 0;
+background-color: white;
+position:relative;
+font-size:100%;
+font-weight:bold;
+/*text-align:center;*/
+}
+
+#menu ul {list-style: none; padding: 0;margin: 0;}
+#menu  ul li {display: block;float: left;margin-left:0;margin-right:60px;}
+#menu  li ul {display: none;}
+#menu  li ul li {font-size:80%;margin:0;line-height:100%;}
+#menu  ul li a {display: block; padding: 5px 10px 5px 10px;text-decoration: none;
+           color: black;}
+#menu  ul li a:hover {background: #E6E6E6;opacity:1;text-align:left}
+#menu  li:hover ul {display: block; position: absolute;}
+#menu  li:hover li {float: none;}
+#menu  li:hover a {background: #CCCCCC;opacity:1;}
+/*#drop-nav {margin:auto;}*/
+
+      /*MAIN CONTENT*/
+#content {
+width: 600px;
+/*position: fixed;*/
+padding: 0;
+margin: 30px 0 0 0;
+/*background: #D5DBE1;*/
+text-align:justify;
+}
+
+#content.big {
+width: 680px;
+/*position: fixed;*/
+padding: 0;
+margin: 20px 260px 0 0;
+text-align:justify;
+}
+
+  /*SIDEBAR*/
+#sidebar {
+float: right;
+width: 330px;
+margin: 15px 0 -5000px 0;
+padding: 0 1em 5000px 1em;  /*CSS Lint warning - using width with padding*/
+background: #F1F8FF; /*#EBEBEB;*/
+font-size: 90%;
+}
+
+
+
+    
+#sidebar.sbsmall {
+float: right;
+width: 250px;    /*CSS Lint warning - using width with padding*/
+margin: 15px 0 -5000px 0;
+padding: 0 1em 5000px 1em;
+background:#EBEBEB;
+font-size: 90%;
+}
+
+#sidebar img{
+   margin: 10px 0;
+   width: 200px;
+}
+
+#sidebar.sbsmall a{
+ font-size: 80%;
+}
+
+      /*SIDE NAV*/
+#navcontainer {
+/*width : 200px;*/
+margin-bottom: 15px;
+}
+#navcontainer a {
+text-decoration : none;
+display : block;
+margin: 0 10px;
+width: inherit;
+padding: 5px 8px;
+border-bottom : 1px solid #eee;
+background :  #2E5C8A;
+color : #EFEFEF;
+line-height: 120%;
+font-weight:100;
+}
+#navcontainer i {
+margin-left: 10px;
+}
+      /*FOOTER*/
+#footer {
+clear: both;
+padding: 10px;
+margin-top: 20px;
+text-align: center;
+color: #333;
+font-size: 10px;
+}
+
+
+      /*TYPOGRAPHY*/
+h1 {
+margin: 0;
+padding: 0;
+font-size: 140%;
+letter-spacing: 2px;
+line-height: 130%;
+text-align: left;
+}
+
+h2 {
+margin: 0;
+padding: 0;
+font-size: 120%;
+}
+
+h3 {
+margin: 7px 0 3px 0;
+}
+
+h3.cv {
+margin-top:20px;
+margin-bottom: -7px;
+}
+
+h4 {
+margin: 10px 0 0 0;
+}
+
+/*p {
+ 
+}*/
+
+
+      /*IMAGES*/
+.right {
+float: right;
+border: 0 solid #656C4A;
+margin: 5px 0 10px 0;
+padding: 10px;
+} 
+      /*LINKS*/
+a {
+color :  #2E0000;
+font-weight: 700;
+letter-spacing:1.5px;
+text-decoration : none;
+font-size: 92%;
+}
+a:hover {
+opacity: 0.5;
+}
+a.internal {
+    color :  #000033;
+}
+
+/*---------------------------------------------------------*/
+
+/*ADDITIONS TO STYLE SHEET*/
+/* CV page */
+#TLcontainer
+{
+width: 600px;
+margin: 40px 0 10px 0;
+}
+#TLlabels
+{
+padding: 0 12px;
+}
+.TLlab {
+  height: 40px;
+  display:inline-block;
+  line-height: 90%;
+  vertical-align: bottom;
+  font-size: 88%;
+  padding: 0 0;
+  margin: 0 0;
+}
+#TextBox
+{
+border: 3px solid grey;
+background: white;
+opacity: 0.75;
+color: black;
+border-radius: 5px;
+padding: 15px 10px;
+margin-top: 10px;
+}
+#contentPublications {
+text-align: left;
+}
+
+/*buttons and formatting near buttons*/
+div.button_row {
+margin: 0 0 0 15px;
+}
+
+p.button_row {
+  display: inline-block;
+  width: 100px;
+  font-size: 16px;
+  color: #0066FF;
+  opacity:0.75;
+}
+
+button {
+  border:none;
+  border-radius: 3px;
+  height: 30px;
+  width: 40px;
+}
+
+button.main {
+  margin: 0 5px;
+  width: 80px;
+}
+
+button.small {
+  width: 50px;
+  height: 20px;
+  margin: 5px 10px 0 0;
+  font-size: 10px;
+  background-color: #FFD119;
+}
+
+
+/*tables*/
+table {
+text-align: left;
+margin: 20px 0 0 0;
+}
+
+.regression {
+font-size:88%;
+margin-top: 0;
+}
+
+td {
+vertical-align:top;
+padding: 0 0;
+}
+
+.quant {
+text-align:right;
+}
+
+/* DO I NEED THIS?.indexsv {
+   width: 380px;
+}*/
+
+td.cv_cell {
+  line-height: 140%;
+}
+
+.cv_gap {
+  padding-top: 20px;
+}
+
+/*.colgap {
+  width:10px;
+}*/
+
+
+/*lists*/
+ul {
+  padding: 0 0;
+  margin: 0 15px;
+ list-style-type:square;
+}
+
+li {
+  padding: 0 0;
+  margin: 3px 0;
+}
+
+/* DO I NEED THIS?p.KE {
+  margin: 10px 0 0 0;
+}
+
+ul.KE {
+  margin: 0 30px;
+}
+
+li.KE {
+  padding: 0 10px;
+}*/
+
+ul.nob {
+    list-style-type: none;
+    padding:0;
+}
+
+ul.nob li {
+    margin-left:-15px;
+    padding:3px 0;
+    line-height:110%;
+    color:#333333;
+}
+
+li.sub {
+
+ font-size:80%;
+ line-height:150%;
+ list-style-type:none;
+ /*padding-left:50px;*/
+opacity:0.75;
+}
+
+/*ul.myapp {
+list-style-type: none;
+}
+
+ul.myapp li {
+    margin-bottom:10px;
+}*/
+
+
+
+
+td ul {
+    margin: 0 0;
+}
+
+
+td li {
+    list-style-type:none;
+    margin: 12px 0;
+    line-height: 110%;
+}
+
+
+p.pcv {
+    margin-bottom:0;
+}
+
+sup {
+font-size:60%;
+}
+
+
+/*diagrams*/
+.display {
+  /*  float:right; */
+    margin-left:10px; 
+    width:300px;
+}
+
+
+.displaybox_big {
+    margin: 17px -30px 0 0;
+    float: left;
+}
+
+#displaybox {
+    fill: grey;
+    font-size: 12px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.geo path, line{
+  fill:none;
+  stroke:grey;
+  stroke-width: 1px;
+  opacity: 0.6;
+}
+
+.axis path, line{
+  fill:none;
+  stroke:grey;
+}
+
+/*specially for EW house prices*/
+.axisEW path,
+.axisEW line {
+    fill: none;
+    stroke: grey;
+    shape-rendering: crispEdges;
+}
+.axisEW text {
+    font-family: sans-serif;
+    font-size: 11.5px;
+    fill:grey;
+    stroke:none;
+}
+.textEW {
+    font-family: sans-serif;
+    font-size: 11.5px;
+    fill:grey;
+    stroke:none;
+}
+
+/*interaction and other JavaScript-related*/
+.widget:hover {
+    opacity:0.5;
+}
+
+.HL1 {
+  color: #197575;
+}
+
+.HL2 {
+  color:#248F24;
+}
+
+.HL3 {
+  color:  #2E5C8A;
+}
+
+.HL4 {
+ color: #FFD119;
+}
+
+.HL5 {
+ color: #2E5C8A;
+}
+
+
+
+.hidden {display:none;}
+
+select {
+    margin: 2px 0;
+}
+
+/*other*/
+.columnlike{
+  display: inline-block;
+  width: 49%;
+  vertical-align:top;
+  margin-top:-12px;
+}
+
+.tdlike{
+  vertical-align:top;
+  text-align: left;
+  padding: 7px 7px 0 7px;
+}
+
+
