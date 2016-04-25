@@ -66,13 +66,13 @@ function number_format(num,dp)
     return reverse_string(num);
 }
 
-function deflate(num,year)
-{
-    var base_year = 2014;
-  //  var inflation_data = {'1995':149.1,'1996':152.7,'1997':157.5,'1998':162.9,'1999':165.4,'2000':170.3,'2001':173.3,'2002':176.2,'2003':181.3,'2004':186.7,'2005':192.0,'2006':198.1,'2007':206.6,'2008':214.8,'2009':213.7,'2010':223.6,'2011':235.2,'2012':242.7,'2013':250.1,'2014':255.8}; //ONS RPI data Table 36, using January 1987 as base year
- var inflation_data = {'1995':588.2,'1996':602.4,'1997':621.3,'1998':642.6,'1999':652.5,'2000':671.8,'2001':683.7,'2002':695.1,'2003':715.2,'2004':736.5,'2005':757.3,'2006':781.5,'2007':815.0,'2008':847.5,'2009':843.0,'2010':881.9,'2011':927.8,'2012':957.6,'2013':986.7,'2014':757.3*1.27};  //ONS consumer price index http://www.ons.gov.uk/ons/datasets-and-tables/data-selector.html?cdid=CDKO&dataset=mm23&table-id=3.6 base year 1974
-    return num*(inflation_data[base_year]/inflation_data[year]);
-}
+// function deflate(num,year)
+// {
+//     var base_year = 2014;
+//   //  var inflation_data = {'1995':149.1,'1996':152.7,'1997':157.5,'1998':162.9,'1999':165.4,'2000':170.3,'2001':173.3,'2002':176.2,'2003':181.3,'2004':186.7,'2005':192.0,'2006':198.1,'2007':206.6,'2008':214.8,'2009':213.7,'2010':223.6,'2011':235.2,'2012':242.7,'2013':250.1,'2014':255.8}; //ONS RPI data Table 36, using January 1987 as base year
+//  var inflation_data = {'1995':588.2,'1996':602.4,'1997':621.3,'1998':642.6,'1999':652.5,'2000':671.8,'2001':683.7,'2002':695.1,'2003':715.2,'2004':736.5,'2005':757.3,'2006':781.5,'2007':815.0,'2008':847.5,'2009':843.0,'2010':881.9,'2011':927.8,'2012':957.6,'2013':986.7,'2014':757.3*1.27};  //ONS consumer price index http://www.ons.gov.uk/ons/datasets-and-tables/data-selector.html?cdid=CDKO&dataset=mm23&table-id=3.6 base year 1974
+//     return num*(inflation_data[base_year]/inflation_data[year]);
+// }
 
 
 function EW_house_price(option,time_conversion,start_year)  //time_conversion is no. milliseconds for 1 year
@@ -81,14 +81,15 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
    
    function update_EW_table(year)
     {
-	$('#td_EW_price').text(number_format(EW_data[year].price,0));
-	var ts_unit = (option === 'earnings' || option === 'index')? 'x' : '';
-	if (options[option].insert_ts) 
-	{
-	    var second_arg =  (option === 'earnings')? deflate(EW_data[year].earnings*52,year) : EW_data[1995].price;
-	    $('#td_EW_ts_datum').text(number_format(options[option].set_ts_data(EW_data[year].price,second_arg),options[option].decimal_places)+ts_unit);
-	}
-	if (year > data_start_year) {$('#td_EW_RoC').text(number_format(options['RoC'].set_ts_data(EW_data[year].price,EW_data[year-1].price,year),1)+'%');}
+    // console.log("ew_data", EW_data, "Year", year)
+	$('#td_EW_price').text(number_format(EW_data[year].asian_pop,0));
+	var ts_unit = (option === 'Asia' || option === 'index')? 'x' : '';
+	// if (options[option].insert_ts) 
+	// {
+	//     var second_arg =  (option === 'Asia')? EW_data[2006].asian_pop : EW_data[2006].asian_pop;
+	//     $('#td_EW_ts_datum').text(number_format(options[option].set_ts_data(EW_data[year].asian_pop,second_arg),options[option].decimal_places)+ts_unit);
+	// }
+	// if (year > data_start_year) {$('#td_EW_RoC').text(number_format(options['RoC'].set_ts_data(EW_data[year].asian_pop,EW_data[year-1].asian_pop,year),1)+'%');}
     }
 
     //parameters and functions for different display options
@@ -109,21 +110,21 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 		// decimal_places: 0, //decimal places for displaying values
 		// insert_ts: undefined   //name of time series to be inserted in table, if not already displayed by default
 	 //    },
-	    current: {
-		title: 'England and Wales mean property prices by district, at current prices, 1995-2014',
-		droplist_string: 'Current prices',
-		add_data_text: "Adjusted for inflation using the Office for National Statistics' <a href='http://www.ons.gov.uk/ons/datasets-and-tables/data-selector.html?cdid=CDKO&dataset=mm23&table-id=3.6'>Consumer Prices Index</a>.",
-		min_start_year:1995,
-		end_year:2013,
-		adjust_price_data: function(x,year) {return deflate(parseFloat(x),year);}, //adjust for inflation
-		set_ts_data: function(x) {return x;},
-		display_ts_data: function(x,base) { return log(x,base);}, 
-		ticks: function(min_ts,max_ts) {return [min_ts,75000,100000,150000,200000,300000,500000,750000,1000000,max_ts].reverse();},
-		key_scale: function(range,domain,base) {return d3.scale.log().base(base).range(range).domain(domain);},
-		key_labels: ['2014 £','(logarithmic scale)'],
-		decimal_places: 0,
-		insert_ts: undefined
-	    },
+	 //    current: {
+		// title: 'England and Wales mean property prices by district, at current prices, 1995-2014',
+		// droplist_string: 'Current prices',
+		// add_data_text: "Adjusted for inflation using the Office for National Statistics' <a href='http://www.ons.gov.uk/ons/datasets-and-tables/data-selector.html?cdid=CDKO&dataset=mm23&table-id=3.6'>Consumer Prices Index</a>.",
+		// min_start_year:2006,
+		// end_year:2013,
+		// adjust_price_data: function(x,year) {return deflate(parseFloat(x),year);}, //adjust for inflation
+		// set_ts_data: function(x) {return x;},
+		// display_ts_data: function(x,base) { return log(x,base);}, 
+		// ticks: function(min_ts,max_ts) {return [min_ts,75000,100000,150000,200000,300000,500000,750000,1000000,max_ts].reverse();},
+		// key_scale: function(range,domain,base) {return d3.scale.log().base(base).range(range).domain(domain);},
+		// key_labels: ['2014 £','(logarithmic scale)'],
+		// decimal_places: 0,
+		// insert_ts: undefined
+	 //    },
 	 //    index: {
 		// title: 'England and Wales mean property prices by district 1995-2014, as a multiple of 1995 values',
 		// droplist_string: 'Compared with 1995',
@@ -188,6 +189,7 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 
     //manipulating elements already on HTML page
     var svg = d3.select('#displaybox');
+    console.log("svg", svg)
     var svg_width = svg.attr('width');
     var tm_labelg = svg.append('g').attr('transform','translate('+(svg_width*0.85)+','+16+')').attr('class','rm_on_relaunch');	//labels and keys
     var keyg = svg.append('g').attr('transform','translate(0,'+0+')').attr('class','rm_on_relaunch');
@@ -195,14 +197,15 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
     var selected_district;
     if ($('.selected_district').length === 1) 
     {
-	selected_district = $('.selected_district').attr('id').replace('pgon','');
+	// selected_district = $('.selected_district').attr('id').replace('pgon','');
+	selected_district = $('.selected_district').attr('id'); 
 	map_clicked = true;
     }
     var resuming = $('#tm_label').length === 1;
 
     $('path').attr('class','anim_element').css('stroke-width',0.2); //this is placed here rather than with the D3 to resolve some user interaction sequence errors
-    console.log("option", option)
-    if (resuming && map_clicked) {$('#pgon'+selected_district).attr('class','anim_element selected_district').css('stroke-width',2);}
+    // if (resuming && map_clicked) {$('#pgon'+selected_district).attr('class','anim_element selected_district').css('stroke-width',2);}
+    if (resuming && map_clicked) {$(selected_district).attr('class','anim_element selected_district').css('stroke-width',2);}
     $("#title").html(options[option].title);
     $("#add_data_text").html('');
     $("#add_data_text").html(options[option].add_data_text);
@@ -229,14 +232,14 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
     var min_ts = 10000000000;
 
     //some national data external to the CSV file
-    var EW_data = {'1995':{price:68719,earnings:undefined},'1996':{price:72337,earnings:undefined},'1997':{price:79153,earnings:377.0},'1998':{price:85688,earnings:397.3},'1999':{price:96067,earnings:412.3},'2000':{price:107321,earnings:430.4},'2001':{price:118726,earnings:455.7},'2002':{price:137806,earnings:478.2},'2003':{price:155444,earnings:493.4},'2004':{price:178138,earnings:513.1},'2005':{price:189021,earnings:522.2},'2006':{price:203129,earnings:540.5},'2007':{price:218965,earnings:556.4},'2008':{price:216415,earnings:582.4},'2009':{price:212773,earnings:592.9},'2010':{price:235491,earnings:604.0},'2011':{price:231953,earnings:608.5},'2012':{price:237609,earnings:612.5},'2013':{price:246957,earnings:624.8},'2014':{price:258322,earnings:625.0}}; //England & Wales national average house prices for each year in nominal terms
-    for (var y=data_start_year;y<=end_year;y++) { EW_data[y].price = EW_data[y].price; }
+    var EW_data = {'2006':{asian_pop:203129,earnings:540.5},'2007':{asian_pop:422333,earnings:556.4},'2008':{asian_pop:383608,earnings:582.4},'2009':{asian_pop:413312,earnings:592.9},'2010':{asian_pop:422063,earnings:604.0},'2011':{asian_pop:451593,earnings:608.5},'2012':{asian_pop:429599,earnings:612.5},'2013':{asian_pop:400548,earnings:624.8},'2014':{asian_pop:undefined,earnings:625.0}}; //England & Wales national average house prices for each year in nominal terms
+    for (var y=data_start_year;y<=end_year;y++) { EW_data[y].asian_pop = EW_data[y].asian_pop; }
     update_EW_table(anim_start_year);
 
-    d3.csv("../../data/final_df_2.csv", function(d) { //read in csv file
-	    console.log("data", d)
+    d3.csv("../../data/final_df.csv", function(d) { //read in csv file
+	    // console.log("data", d)
 
-		if (d.State !== "Total")
+		if ((d.State !== "Total") && (d.State !== "Origin"))
 		{
 		 //    var record = {
 			// code: d.code, //district code
@@ -244,6 +247,7 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 		    // };
 		    // console.log("state", d.State)
 		 	var record = {
+				abbrev: d.Abbreviations, 
 				state: d.State
 		    };
 
@@ -253,7 +257,8 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 				record['Total_'+y.toString()] = d['Total_'+y.toString()];
 				// var second_arg =  (option === 'earnings')? deflate(d['weekly_earnings_'+y.toString()]*52,y) : record['price_'+((option === 'RoC')? y-1 : 1995).toString()];
 				//change default to asia instead of current
-				var second_arg = (option === 'Current')? d['Asia_'+y.toString()]: 0
+				// var second_arg = (option === 'Current')? d['Asia_'+y.toString()]: 0
+				var second_arg = (option === 'Asia')? d['Asia_'+y.toString()]: 0
 				record[y] = options[option].set_ts_data(record['Total_'+y.toString()],second_arg,y); 
 				record["Asia_" + y.toString()] = d['Asia_'+y.toString()]
 				max_ts = (record[y] > max_ts)? record[y] : max_ts;  //find maximum value
@@ -262,32 +267,33 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 		    console.log("this is record", record)
 		    return record;
 		}
-		// else{ 
-		// 	return {}; 
-		// }
-		// return record;
 
     }, function(error, rows) {
     	// console.log("what is error", error)
-    	console.log("what the fuck is rows?", rows)
+    	// console.log("what the fuck is rows?", rows)
 
 	//subfunctions needed in this block
 	function polygon_color(poly,year)  //determine colour for polygon
 	{
-		console.log("in polygon_color")
+		// console.log("in polygon_color")
 	    // var id = $(poly).attr('id'); 
 	    var id = $(poly).attr('id'); 
 	    console.log("this is the id", id)
 	    // var code = id.replace('pgon',''); 
+	    console.log("dataaaa", data)
+	    //problem here: id is abbrev and data has full string
 	    var data_exists = data[id] !== undefined; 
+	    console.log("data exists?", data_exists)
 	    // var ts_datum = (id.match(/E|W/) && data_exists)? data[code][year] : 0;
 	    // var ts_datum = (data_exists)? data[code][year] : 0; 
 	    var ts_datum = (data_exists)? data[id][year] : 0;
+	    console.log("ts dayum", ts_datum)
 	    return (ts_datum === 0)? 'none' : color_scale(options[option].display_ts_data(ts_datum,base));
 	}
 
 	function update_map(trans,year)  //animate changes to house prices in each district - not standard D3 (see comment below *)
 	{
+
 	    year++;
 	    if (year <= end_year) 
 	    { 
@@ -302,11 +308,12 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 
 	function update_district_table(code,year) //update table giving stats for selected district
 	{
+		console.log("what is data[code]?", data[code])
 	    $('#td_selected_name').text(data[code].name.replace(/_/g,' ')); 
-	    $('#td_selected_price').text(number_format(data[code]['price_'+year.toString()],0));
-	    var ts_unit = (option === 'earnings' || option === 'index')? 'x' : '';
-	    if (options[option].insert_ts) {$('#td_selected_ts_datum').text(number_format(data[code][year],options[option].decimal_places).toString()+ts_unit);}
-	    if (year > data_start_year) {$('#td_selected_RoC').text(number_format(options['RoC'].set_ts_data(data[code]['price_'+year.toString()],data[code]['price_'+(year-1).toString()],year),1)+'%');}
+	    $('#td_selected_pop').text(number_format(data[code]['Asia_'+year.toString()],0));
+	    // var ts_unit = (option === 'earnings' || option === 'index')? 'x' : '';
+	    // if (options[option].insert_ts) {$('#td_selected_ts_datum').text(number_format(data[code][year],options[option].decimal_places).toString()+ts_unit);}
+	    // if (year > data_start_year) {$('#td_selected_RoC').text(number_format(options['RoC'].set_ts_data(data[code]['price_'+year.toString()],data[code]['price_'+(year-1).toString()],year),1)+'%');}
 	}
 
 	var data = {};  //main data: using this rather than rows because want an associative array
@@ -314,15 +321,19 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 	{
 	    // data[rows[i].code] = {name: rows[i].name};
 	    // console.log("what is rows?", rows)
-	    data[rows[i].state] = {name: rows[i].state};
+	    console.log("row Abbreviations of i", rows[i])
+
+	    data[rows[i].abbrev] = {abbrev: rows[i].abbrev}
+	    data[rows[i].abbrev] = {name: rows[i].state};
+	    
 	    // console.log('data', data)  
 	    for (var y=data_start_year;y<=end_year;y++) 
 	    {
-		// data[rows[i].code]['price_'+y.toString()] = rows[i]['price_'+y.toString()];  //average house price for given district and year
-		// data[rows[i].code][y] = rows[i][y];  //time series data for given district and year
-		console.log("rows[i]", rows[i])
-		data[rows[i].state]['Asia_'+y.toString()] = rows[i]['Asia_'+y.toString()];  //average house price for given district and year
-		data[rows[i].state][y] = rows[i][y];  //time series data for given district and year
+			// data[rows[i].code]['price_'+y.toString()] = rows[i]['price_'+y.toString()];  //average house price for given district and year
+			// data[rows[i].code][y] = rows[i][y];  //time series data for given district and year
+			// console.log("rows[i]", rows[i])
+			data[rows[i].abbrev]['Asia_'+y.toString()] = rows[i]['Asia_'+y.toString()];  //average house price for given district and year
+			data[rows[i].abbrev][y] = rows[i][y];  //time series data for given district and year
 	    }
 	    console.log('data after loop', data) 
 	}
@@ -337,6 +348,7 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 	var colors = [];
 	var display_max_ts = options[option].display_ts_data(max_ts,base);  //if using a logarithmic scale or other conversion, the max and min used for the display will be different to the underlying data
 	var display_min_ts = options[option].display_ts_data(min_ts,base);
+
 	for (var nc=0;nc<Ncolors;nc++) 
 	{
 	    domain[nc] = display_min_ts + (nc/(Ncolors-1))*(display_max_ts-display_min_ts);  
@@ -349,19 +361,21 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 
 	//fill and animate polygons  * NOTE * This is a non-standard way of using D3, I am aware of this. This is due to difficulty converting my initial shape file to topojson, which is why my geographical areas are defined as SVG polygons in the HTML file 
 	var year=anim_start_year;
-	var nation = svg.selectAll("polygon") 
+	var nation = svg.selectAll("path") 
 	    .attr('fill',function()  { var id = $(this).attr('id'); return polygon_color(this,anim_start_year); }) //initial fill
 	    .on('mousedown',function() {  
 		$('.selected_district').css('stroke-width',0.2).attr('class','anim_element');     //change polygon and previously highlighted polygons
 		$(this).css('stroke-width',2).attr('class','anim_element selected_district'); //adding class and styline class in .css file doesn't seem to work
 
 		var id = $(this).attr('id');
-		var code = id.replace('pgon','');
+		// var code = id.replace('pgon','');
 		var current_year = $('#tm_label').text(); //year currently being displayed when click happens
 
-		update_district_table(code,current_year);  //put district-specific stats in table when district is clicked on
+		// update_district_table(code,current_year);  //put district-specific stats in table when district is clicked on
 
-		selected_district = code;
+		update_district_table(id,current_year);
+		// selected_district = code;
+		selected_district = id;
 		map_clicked = true;
 	    })
 	    .transition()
