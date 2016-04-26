@@ -17,7 +17,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function(req, res){
     res.sendfile('./views/index.html');
 });
-var PORT = process.env.PORT || 2000;
+var PORT = process.env.PORT || 5000;
     app.listen(PORT, function() {
       console.log("Application running on port: ", PORT);
 });
