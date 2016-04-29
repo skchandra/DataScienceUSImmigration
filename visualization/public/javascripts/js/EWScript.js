@@ -178,7 +178,10 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 		end_year:2013,
 		// adjust_price_data: function(x,year) {return deflate(parseFloat(x),year);}, //adjust for inflation
 		set_ts_data: function(x,income) {return x/income;},
-		display_ts_data: function(x) {return log(x,base);}, 
+		display_ts_data: function(x) {
+			console.log("x and base", x, base, log(x, base)); 
+			return log(x,base);
+		}, 
 		ticks: function(min_ts,max_ts) {return [min_ts,2.5,5,7.5,10,20,max_ts].reverse();},
 		key_scale: function(range,domain,base) {return d3.scale.log().base(base).range(range).domain(domain);},
 		key_labels: ['Multiple of local earnings','(logarithmic scale)'],
@@ -232,7 +235,7 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
     var min_ts = 10000000000;
 
     //some national data external to the CSV file
-    var EW_data = {'2006':{asian_pop:203129,earnings:540.5},'2007':{asian_pop:422333,earnings:556.4},'2008':{asian_pop:383608,earnings:582.4},'2009':{asian_pop:413312,earnings:592.9},'2010':{asian_pop:422063,earnings:604.0},'2011':{asian_pop:451593,earnings:608.5},'2012':{asian_pop:429599,earnings:612.5},'2013':{asian_pop:400548,earnings:624.8},'2014':{asian_pop:undefined,earnings:625.0}}; //England & Wales national average house prices for each year in nominal terms
+    var EW_data = {'2006':{asian_pop:422333,earnings:540.5},'2007':{asian_pop:383508,earnings:556.4},'2008':{asian_pop:383608,earnings:582.4},'2009':{asian_pop:413312,earnings:592.9},'2010':{asian_pop:422063,earnings:604.0},'2011':{asian_pop:451593,earnings:608.5},'2012':{asian_pop:429599,earnings:612.5},'2013':{asian_pop:400548,earnings:624.8},'2014':{asian_pop:undefined,earnings:625.0}}; //England & Wales national average house prices for each year in nominal terms
     for (var y=data_start_year;y<=end_year;y++) { EW_data[y].asian_pop = EW_data[y].asian_pop; }
     update_EW_table(anim_start_year);
 
@@ -264,7 +267,7 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 				max_ts = (record[y] > max_ts)? record[y] : max_ts;  //find maximum value
 				min_ts = (record[y] < min_ts)? record[y] : min_ts;  //find minimum value
 		    } 
-		    console.log("this is record", record)
+		    // console.log("this is record", record)
 		    return record;
 		}
 
@@ -283,10 +286,12 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 	    console.log("dataaaa", data)
 	    //problem here: id is abbrev and data has full string
 	    var data_exists = data[id] !== undefined; 
-	    console.log("data exists?", data_exists)
+	    // console.log("data exists?", data_exists)
 	    // var ts_datum = (id.match(/E|W/) && data_exists)? data[code][year] : 0;
 	    // var ts_datum = (data_exists)? data[code][year] : 0; 
-	    var ts_datum = (data_exists)? data[id][year] : 0;
+	    console.log("year", year)
+	   	console.log("data[id][year]", data[id]["Asia_"+ year])
+	    var ts_datum = (data_exists)? data[id]["Asia_"+ year] : 0;
 	    console.log("ts dayum", ts_datum)
 	    return (ts_datum === 0)? 'none' : color_scale(options[option].display_ts_data(ts_datum,base));
 	}
@@ -308,7 +313,7 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 
 	function update_district_table(code,year) //update table giving stats for selected district
 	{
-		console.log("what is data[code]?", data[code])
+		// console.log("what is data[code]?", data[code])
 	    $('#td_selected_name').text(data[code].name.replace(/_/g,' ')); 
 	    $('#td_selected_pop').text(number_format(data[code]['Asia_'+year.toString()],0));
 	    // var ts_unit = (option === 'earnings' || option === 'index')? 'x' : '';
