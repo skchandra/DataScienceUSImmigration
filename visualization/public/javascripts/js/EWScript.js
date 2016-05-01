@@ -66,24 +66,44 @@ function number_format(num,dp)
     return reverse_string(num);
 }
 
-// function deflate(num,year)
-// {
-//     var base_year = 2014;
-//   //  var inflation_data = {'1995':149.1,'1996':152.7,'1997':157.5,'1998':162.9,'1999':165.4,'2000':170.3,'2001':173.3,'2002':176.2,'2003':181.3,'2004':186.7,'2005':192.0,'2006':198.1,'2007':206.6,'2008':214.8,'2009':213.7,'2010':223.6,'2011':235.2,'2012':242.7,'2013':250.1,'2014':255.8}; //ONS RPI data Table 36, using January 1987 as base year
-//  var inflation_data = {'1995':588.2,'1996':602.4,'1997':621.3,'1998':642.6,'1999':652.5,'2000':671.8,'2001':683.7,'2002':695.1,'2003':715.2,'2004':736.5,'2005':757.3,'2006':781.5,'2007':815.0,'2008':847.5,'2009':843.0,'2010':881.9,'2011':927.8,'2012':957.6,'2013':986.7,'2014':757.3*1.27};  //ONS consumer price index http://www.ons.gov.uk/ons/datasets-and-tables/data-selector.html?cdid=CDKO&dataset=mm23&table-id=3.6 base year 1974
-//     return num*(inflation_data[base_year]/inflation_data[year]);
-// }
-
-
 function EW_house_price(option,time_conversion,start_year)  //time_conversion is no. milliseconds for 1 year
 {
     var map_clicked = false;
    
    function update_EW_table(year)
     {
-    // console.log("ew_data", EW_data, "Year", year)
-	$('#td_EW_price').text(number_format(EW_data[year].asian_pop,0));
-	var ts_unit = (option === 'Asia' || option === 'index')? 'x' : '';
+    console.log("ew_data", EW_data, "Year", year)
+    switch(option){ 
+    	case "Asia": 
+			$('#td_EW_price').text(number_format(EW_data[year].Asia_pop,0));
+			var ts_unit = (option === 'Asia' || option === 'index')? 'x' : ''; 
+			break;
+		case "Africa": 
+			$('#td_EW_price').text(number_format(EW_data[year].Africa_pop,0));
+			var ts_unit = (option === 'Africa' || option === 'index')? 'x' : ''; 
+			break;
+		case "Europe": 
+			$('#td_EW_price').text(number_format(EW_data[year].Europe_pop,0));
+			var ts_unit = (option === 'Europe' || option === 'index')? 'x' : ''; 
+			break;
+		case "Oceania": 
+			$('#td_EW_price').text(number_format(EW_data[year].Oceania_pop,0));
+			var ts_unit = (option === 'Oceania' || option === 'index')? 'x' : ''; 
+			break;
+		case "Northern_America": 
+			$('#td_EW_price').text(number_format(EW_data[year]["Northern_America_pop"],0));
+			var ts_unit = (option === 'Northern_America' || option === 'index')? 'x' : ''; 
+			break;
+		case "Latin_America": 
+			$('#td_EW_price').text(number_format(EW_data[year]["Latin_America_pop"],0));
+			var ts_unit = (option === 'Latin_America' || option === 'index')? 'x' : ''; 
+			break;
+		default: 
+			$('#td_EW_price').text("Error?");
+			var ts_unit = '';   	
+   	}
+	// $('#td_EW_price').text(number_format(EW_data[year].Asia_pop,0));
+	// var ts_unit = (option === 'Asia' || option === 'index')? 'x' : '';
 	// if (options[option].insert_ts) 
 	// {
 	//     var second_arg =  (option === 'Asia')? EW_data[2006].asian_pop : EW_data[2006].asian_pop;
@@ -94,105 +114,122 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 
     //parameters and functions for different display options
     var options = 
-	{
-	 //    nominal: {
-		// title: 'England and Wales mean property prices by district, at nominal prices, 1995-2014',
-		// droplist_string: 'Nominal prices',
-		// min_start_year:1995,
-		// add_data_text: '',
-		// end_year:2014,
-		// adjust_price_data: function(x) {return parseFloat(x);},  //adjustments that need to be made to price data, e.g. for inflation
-		// set_ts_data: function(x) {return x;}, //the actual time series data to be displayed
-		// display_ts_data: function(x,base) {return log(x,base);}, //adjustments that need to be made for displaying data, e.g. using logarithmic scale 
-		// ticks: function(min_ts,max_ts) {return [min_ts,50000,100000,150000,200000,300000,500000,750000,1000000,max_ts].reverse();}, //ticks for key axis
-		// key_scale: function(range,domain,base) {return d3.scale.log().base(base).range(range).domain(domain);}, //scale for key axis
-		// key_labels: ['£','(logarithmic scale)'], //labels for the key
-		// decimal_places: 0, //decimal places for displaying values
-		// insert_ts: undefined   //name of time series to be inserted in table, if not already displayed by default
-	 //    },
-	 //    current: {
-		// title: 'England and Wales mean property prices by district, at current prices, 1995-2014',
-		// droplist_string: 'Current prices',
-		// add_data_text: "Adjusted for inflation using the Office for National Statistics' <a href='http://www.ons.gov.uk/ons/datasets-and-tables/data-selector.html?cdid=CDKO&dataset=mm23&table-id=3.6'>Consumer Prices Index</a>.",
-		// min_start_year:2006,
-		// end_year:2013,
-		// adjust_price_data: function(x,year) {return deflate(parseFloat(x),year);}, //adjust for inflation
-		// set_ts_data: function(x) {return x;},
-		// display_ts_data: function(x,base) { return log(x,base);}, 
-		// ticks: function(min_ts,max_ts) {return [min_ts,75000,100000,150000,200000,300000,500000,750000,1000000,max_ts].reverse();},
-		// key_scale: function(range,domain,base) {return d3.scale.log().base(base).range(range).domain(domain);},
-		// key_labels: ['2014 £','(logarithmic scale)'],
-		// decimal_places: 0,
-		// insert_ts: undefined
-	 //    },
-	 //    index: {
-		// title: 'England and Wales mean property prices by district 1995-2014, as a multiple of 1995 values',
-		// droplist_string: 'Compared with 1995',
-		// add_data_text: "Adjusted for inflation using the Office for National Statistics' <a href='http://www.ons.gov.uk/ons/datasets-and-tables/data-selector.html?cdid=CDKO&dataset=mm23&table-id=3.6'>Consumer Prices Index</a>.",
-		// min_start_year:1995,
-		// end_year:2014,
-		// adjust_price_data: function(x,year) {return deflate(parseFloat(x),year);}, //adjust for inflation
-		// set_ts_data: function(x,x_1995) {return x/x_1995;},
-		// display_ts_data: function(x) { return x;}, 
-		// ticks: function(min_ts,max_ts) {return [min_ts,1,2,3,max_ts].reverse();},
-		// key_scale: function(range,domain,base) {return d3.scale.linear().range(range).domain(domain);},
-		// key_labels: ['times 1995 level','(in real terms)'],
-		// decimal_places: 1,
-		// insert_ts: 'Multiple of 1995 value'
-	 //    },
-	 //    RoC: {
-		// title: 'Mean annual percentage increase in England and Wales property prices by district, 1996-2014',
-		// droplist_string: 'Annual percentage increase',
-		// add_data_text: "Adjusted for inflation using the Office for National Statistics' <a href='http://www.ons.gov.uk/ons/datasets-and-tables/data-selector.html?cdid=CDKO&dataset=mm23&table-id=3.6'>Consumer Prices Index</a>.",
-		// min_start_year:1996,
-		// end_year:2014,
-		// adjust_price_data: function(x,year) {return deflate(parseFloat(x),year);}, //adjust for inflation
-		// set_ts_data: function(x,x_m1,year) {return (year < data_start_year)? undefined : 100*(x-x_m1)/x_m1;},
-		// display_ts_data: function(x) {return x;}, 
-		// ticks: function(min_ts,max_ts) {return [min_ts,-20,0,20,max_ts].reverse();},
-		// key_scale: function(range,domain,base) {return d3.scale.linear().range(range).domain(domain);},
-		// key_labels: ['% annual increase','(in real terms)'],
-		// decimal_places: 1,
-		// insert_ts: undefined
-	 //    },
-	 //    earnings: {
-		// title: 'England and Wales mean property prices by district, as a multiple of mean local annual full-time earnings, 1997-2014',
-		// droplist_string: 'Compared with local earnings',
-		// add_data_text: "Adjusted for inflation using the Office for National Statistics' <a href='http://www.ons.gov.uk/ons/datasets-and-tables/data-selector.html?cdid=CDKO&dataset=mm23&table-id=3.6'>Consumer Prices Index</a>. Earnings figures from ONS <a href='http://www.ons.gov.uk/ons/rel/ashe/annual-survey-of-hours-and-earnings/index.html'>Annual Survey of Hours and Earnings</a>, Table 7, according to where employees <i>work</i> rather than reside. They reflect average full-time earnings for employees, as distinct from average income (which would encompass benefits, part-time earnings, self-employment and investment income).",
-		// min_start_year:1997,
-		// end_year:2014,
-		// adjust_price_data: function(x,year) {return deflate(parseFloat(x),year);}, //adjust for inflation
-		// set_ts_data: function(x,income) {return x/income;},
-		// display_ts_data: function(x) {return log(x,base);}, 
-		// ticks: function(min_ts,max_ts) {return [min_ts,2.5,5,7.5,10,20,max_ts].reverse();},
-		// key_scale: function(range,domain,base) {return d3.scale.log().base(base).range(range).domain(domain);},
-		// key_labels: ['Multiple of local earnings','(logarithmic scale)'],
-		// decimal_places: 1,
-		// insert_ts: 'Times mean FT earnings'
-	 //    }, 
+	{ 
 	    Asia: {
-		title: 'Number of asian immigrants in the USA',
-		droplist_string: 'Asians',
-		add_data_text: "Adjusted for inflation using the Office for National Statistics' <a href='http://www.ons.gov.uk/ons/datasets-and-tables/data-selector.html?cdid=CDKO&dataset=mm23&table-id=3.6'>Consumer Prices Index</a>. Earnings figures from ONS <a href='http://www.ons.gov.uk/ons/rel/ashe/annual-survey-of-hours-and-earnings/index.html'>Annual Survey of Hours and Earnings</a>, Table 7, according to where employees <i>work</i> rather than reside. They reflect average full-time earnings for employees, as distinct from average income (which would encompass benefits, part-time earnings, self-employment and investment income).",
-		min_start_year:2006,
-		end_year:2013,
-		// adjust_price_data: function(x,year) {return deflate(parseFloat(x),year);}, //adjust for inflation
-		set_ts_data: function(x,income) {return x/income;},
-		display_ts_data: function(x) {
-			console.log("x and base", x, base, log(x, base)); 
-			return log(x,base);
-		}, 
-		ticks: function(min_ts,max_ts) {return [min_ts,2.5,5,7.5,10,20,max_ts].reverse();},
-		key_scale: function(range,domain,base) {return d3.scale.log().base(base).range(range).domain(domain);},
-		key_labels: ['Multiple of local earnings','(logarithmic scale)'],
-		decimal_places: 1,
-		insert_ts: 'Times mean FT earnings'
-	    }
+			title: 'Number of asian immigrants in the USA',
+			droplist_string: 'Asians',
+			add_data_text: "Legal Permanent Resident information. Data acquired from: ",
+			min_start_year:2006,
+			end_year:2013,
+			set_ts_data: function(x,income) {return income;},
+			display_ts_data: function(x) {
+				console.log("x and base", x, base, log(x, base)); 
+				return log(x,base);
+			}, 
+			ticks: function(min_ts,max_ts) {return [min_ts,500, 1000, 1500, 5000, 10000, 50000,max_ts].reverse();},
+			key_scale: function(range,domain,base) {return d3.scale.log().base(base).range(range).domain(domain);},
+			key_labels: ['Population','(logarithmic scale)'],
+			decimal_places: 1,
+			insert_ts: 'Times mean FT earnings'
+	    }, 
+
+	    Europe: { 
+		    title: 'Number of European immigrants in the USA',
+			droplist_string: 'Europe',
+			add_data_text: "Legal Permanent Resident information. Data acquired from: ",
+			min_start_year:2006,
+			end_year:2013,
+			set_ts_data: function(x,income) {return income;},
+			display_ts_data: function(x) {
+				console.log("x and base", x, base, log(x, base)); 
+				return log(x,base);
+			}, 
+			ticks: function(min_ts,max_ts) {return [min_ts,500, 1000, 1500, 5000, 10000, 50000,max_ts].reverse();},
+			key_scale: function(range,domain,base) {return d3.scale.log().base(base).range(range).domain(domain);},
+			key_labels: ['Population','(logarithmic scale)'],
+			decimal_places: 1,
+			insert_ts: 'Times mean FT earnings'
+	    },
+
+	    Oceania: { 
+		    title: 'Number of Oceania immigrants in the USA',
+			droplist_string: 'Oceania',
+			add_data_text: "Legal Permanent Resident information. Data acquired from: ",
+			min_start_year:2006,
+			end_year:2013,
+			set_ts_data: function(x,income) {return income;},
+			display_ts_data: function(x) {
+				console.log("x and base", x, base, log(x, base)); 
+				return log(x,base);
+			}, 
+			ticks: function(min_ts,max_ts) {return [min_ts,500, 1000, 1500, 5000, 10000, 50000,max_ts].reverse();},
+			key_scale: function(range,domain,base) {return d3.scale.log().base(base).range(range).domain(domain);},
+			key_labels: ['Population','(logarithmic scale)'],
+			decimal_places: 1,
+			insert_ts: 'Times mean FT earnings'
+	    },
+
+	   	Africa: {
+			title: 'Number of African immigrants in the USA',
+			droplist_string: 'Africa',
+			add_data_text: "Number of legally Permanent resident African foreign born",
+			min_start_year:2006,
+			end_year:2013,
+			// adjust_price_data: function(x,year) {return deflate(parseFloat(x),year);}, //adjust for inflation
+			set_ts_data: function(x,income) {return income;},
+			display_ts_data: function(x) {
+				console.log("x and base", x, base, log(x, base)); 
+				return log(x,base);
+			}, 
+			ticks: function(min_ts,max_ts) {return [min_ts,500, 1000, 1500, 5000, 10000, 50000,max_ts].reverse();},
+			key_scale: function(range,domain,base) {return d3.scale.log().base(base).range(range).domain(domain);},
+			key_labels: ['Population','(logarithmic scale)'],
+			decimal_places: 1,
+			insert_ts: 'Times mean FT earnings'
+	    }, 
+
+	    Northern_America: {
+			title: 'Number of Northern American immigrants in the USA',
+			droplist_string: 'Northern America',
+			add_data_text: "Data acquired from: about legal Permanent residency",
+			min_start_year:2006,
+			end_year:2013,
+			// adjust_price_data: function(x,year) {return deflate(parseFloat(x),year);}, //adjust for inflation
+			set_ts_data: function(x,income) {return income;},
+			display_ts_data: function(x) {
+				console.log("x and base", x, base, log(x, base)); 
+				return log(x,base);
+			}, 
+			ticks: function(min_ts,max_ts) {return [min_ts,500, 1000, 1500, 5000, 10000, 50000,max_ts].reverse();},
+			key_scale: function(range,domain,base) {return d3.scale.log().base(base).range(range).domain(domain);},
+			key_labels: ['Population','(logarithmic scale)'],
+			decimal_places: 1,
+			insert_ts: 'Times mean FT earnings'
+	    },
+
+	   	Latin_America: {
+			title: 'Number of Latin American immigrants in the USA',
+			droplist_string: 'Latin America',
+			add_data_text: "Data acquired from: about legal Permanent residency",
+			min_start_year:2006,
+			end_year:2013,
+			// adjust_price_data: function(x,year) {return deflate(parseFloat(x),year);}, //adjust for inflation
+			set_ts_data: function(x,income) {return income;},
+			display_ts_data: function(x) {
+				console.log("x and base", x, base, log(x, base)); 
+				return log(x,base);
+			}, 
+			ticks: function(min_ts,max_ts) {return [min_ts,500, 1000, 1500, 5000, 10000, 50000,max_ts].reverse();},
+			key_scale: function(range,domain,base) {return d3.scale.log().base(base).range(range).domain(domain);},
+			key_labels: ['Population','(logarithmic scale)'],
+			decimal_places: 1,
+			insert_ts: 'Times mean FT earnings'
+	    },
+
 	};
 
     //manipulating elements already on HTML page
     var svg = d3.select('#displaybox');
-    console.log("svg", svg)
     var svg_width = svg.attr('width');
     var tm_labelg = svg.append('g').attr('transform','translate('+(svg_width*0.85)+','+16+')').attr('class','rm_on_relaunch');	//labels and keys
     var keyg = svg.append('g').attr('transform','translate(0,'+0+')').attr('class','rm_on_relaunch');
@@ -231,24 +268,34 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
     var start_delay = resuming? 0 : 1000;
 
     //some features of time series to be calculated
-    var max_ts = -1;
-    var min_ts = 10000000000;
+    var max_ts = 0;
+    var min_ts = 2000000;
 
     //some national data external to the CSV file
-    var EW_data = {'2006':{asian_pop:422333,earnings:540.5},'2007':{asian_pop:383508,earnings:556.4},'2008':{asian_pop:383608,earnings:582.4},'2009':{asian_pop:413312,earnings:592.9},'2010':{asian_pop:422063,earnings:604.0},'2011':{asian_pop:451593,earnings:608.5},'2012':{asian_pop:429599,earnings:612.5},'2013':{asian_pop:400548,earnings:624.8},'2014':{asian_pop:undefined,earnings:625.0}}; //England & Wales national average house prices for each year in nominal terms
-    for (var y=data_start_year;y<=end_year;y++) { EW_data[y].asian_pop = EW_data[y].asian_pop; }
-    update_EW_table(anim_start_year);
+    // var EW_data_Asia = {'2006':{Asia_pop:422333},'2007':{Asia_pop:383508},'2008':{Asia_pop:383608},'2009':{Asia_pop:413312},'2010':{Asia_pop:422063},'2011':{Asia_pop:451593},'2012':{Asia_pop:429599},'2013':{Asia_pop:400548}}; 
+    // var EW_data_Africa = {'2006':{Africa_pop:422333},'2007':{Africa_pop:383508},'2008':{Africa_pop:383608},'2009':{Africa_pop:413312},'2010':{Africa_pop:422063},'2011':{Africa_pop:451593},'2012':{Africa_pop:429599},'2013':{Africa_pop:400548}}; 
+    // for (var y=data_start_year;y<=end_year;y++) { EW_data[y].asian_pop = EW_data[y].asian_pop; }
+    // update_EW_table(anim_start_year);
 
+	var EW_data = {}
     d3.csv("../../data/final_df.csv", function(d) { //read in csv file
 	    // console.log("data", d)
+	    
+	    if (d.State === "Total"){ 
+	    	for (var y=data_start_year;y<=end_year;y++){
+	    		console.log("y to string", y.toString())
+
+	    		EW_data[y] = {year: y.toString()}
+	    		EW_data[y] = {"Asia_pop": d["Asia_" + y.toString()], "Africa_pop" : d["Africa_" + y.toString()], 
+	    		"Europe_pop" : d["Europe_" + y.toString()], "Northern_America_pop" : d["Northern America_"  + y.toString()], 
+	    		"Oceania_pop" : d["Oceania_" + y.toString()], "Latin_America_pop" : d["Latin America_" + y.toString()]}
+	    		console.log("Ew data after yr", EW_data)
+	    	}
+	    	update_EW_table(anim_start_year);
+	    }
 
 		if ((d.State !== "Total") && (d.State !== "Origin"))
 		{
-		 //    var record = {
-			// code: d.code, //district code
-			// name: d.name  //district name
-		    // };
-		    // console.log("state", d.State)
 		 	var record = {
 				abbrev: d.Abbreviations, 
 				state: d.State
@@ -258,22 +305,62 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 		    { 
 				// record['price_'+y.toString()] = options[option].adjust_price_data(d['price_'+y.toString()],y);  //average house price for district and year, adjusted for inflation or not
 				record['Total_'+y.toString()] = d['Total_'+y.toString()];
-				// var second_arg =  (option === 'earnings')? deflate(d['weekly_earnings_'+y.toString()]*52,y) : record['price_'+((option === 'RoC')? y-1 : 1995).toString()];
-				//change default to asia instead of current
-				// var second_arg = (option === 'Current')? d['Asia_'+y.toString()]: 0
 				var second_arg = (option === 'Asia')? d['Asia_'+y.toString()]: 0
-				record[y] = options[option].set_ts_data(record['Total_'+y.toString()],second_arg,y); 
+
+
 				record["Asia_" + y.toString()] = d['Asia_'+y.toString()]
-				max_ts = (record[y] > max_ts)? record[y] : max_ts;  //find maximum value
-				min_ts = (record[y] < min_ts)? record[y] : min_ts;  //find minimum value
+				record["Africa_" + y.toString()] = d['Africa_'+y.toString()]
+				record["Europe_" + y.toString()] = d['Europe_' + y.toString()]
+				record["Oceania_" + y.toString()] = d['Oceania_' + y.toString()]
+				record["Northern_America_" + y.toString()] = d["Northern America_" + y.toString()]
+				record["Latin_America_" + y.toString()] = d["Latin America_" + y.toString()]
+
+				switch(option){ 
+					case "Asia": 
+						max_ts = (parseInt(record["Asia_" + y.toString()]) > max_ts)? record["Asia_" + y.toString()] : max_ts;  //find maximum value
+						min_ts = (parseInt(record["Asia_" + y.toString()]) < min_ts)? record["Asia_" + y.toString()] : min_ts;  //find minimum value
+			    		console.log("new max and min ts", max_ts, min_ts)
+			    		break; 
+			    	case "Africa": 
+			    		max_ts = (parseInt(record["Africa_" + y.toString()]) > max_ts)? record["Africa_" + y.toString()] : max_ts;  //find maximum value
+						min_ts = (parseInt(record["Africa_" + y.toString()]) < min_ts)? record["Africa_" + y.toString()] : min_ts;  //find minimum value
+			    		// console.log("new max and min ts", max_ts, min_ts)
+			    		break; 
+			    	case "Europe": 
+			    		max_ts = (parseInt(record["Europe_" + y.toString()]) > max_ts)? record["Europe_" + y.toString()] : max_ts;  //find maximum value
+						min_ts = (parseInt(record["Europe_" + y.toString()]) < min_ts)? record["Europe_" + y.toString()] : min_ts;  //find minimum value
+			    		// console.log("new max and min ts", max_ts, min_ts)
+			    		break; 
+			    	case "Oceania": 
+			    		max_ts = (parseInt(record["Oceania_" + y.toString()]) > max_ts)? record["Oceania_" + y.toString()] : max_ts;  //find maximum value
+						min_ts = (parseInt(record["Oceania_" + y.toString()]) < min_ts)? record["Oceania_" + y.toString()] : min_ts;  //find minimum value
+			    		// console.log("new max and min ts", max_ts, min_ts)
+			    		break; 
+			    	case "Northern_America": 
+			    		console.log("in NA")
+			    		max_ts = ((parseInt(record["Northern_America_" + y.toString()]) > max_ts) && (parseInt(record["Northern_America_" + y.toString()]) > 0))? record["Northern_America_" + y.toString()] : max_ts;  //find maximum value
+						min_ts = ((parseInt(record["Northern_America_" + y.toString()]) < min_ts) && (parseInt(record["Northern_America_" + y.toString()]) > 0))? record["Northern_America_" + y.toString()] : min_ts;  //find minimum value
+			    		console.log("new max and min ts", max_ts, min_ts)
+			    		break; 
+			    	case "Latin_America": 
+			    		console.log("in NA")
+			    		max_ts = ((parseInt(record["Latin_America_" + y.toString()]) > max_ts) && (parseInt(record["Latin_America_" + y.toString()]) > 0))? record["Latin_America_" + y.toString()] : max_ts;  //find maximum value
+						min_ts = ((parseInt(record["Latin_America_" + y.toString()]) < min_ts) && (parseInt(record["Latin_America_" + y.toString()]) > 0))? record["Latin_America_" + y.toString()] : min_ts;  //find minimum value
+			    		console.log("new max and min ts", max_ts, min_ts)
+			    		break; 
+			    	default: 
+			    		max_ts = max_ts; 
+			    		min_ts = min_ts; 
+				}
+				
 		    } 
-		    // console.log("this is record", record)
+		    console.log("this is record", record)
 		    return record;
 		}
 
     }, function(error, rows) {
     	// console.log("what is error", error)
-    	// console.log("what the fuck is rows?", rows)
+    	console.log("what the fuck is rows?", rows)
 
 	//subfunctions needed in this block
 	function polygon_color(poly,year)  //determine colour for polygon
@@ -281,24 +368,48 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 		// console.log("in polygon_color")
 	    // var id = $(poly).attr('id'); 
 	    var id = $(poly).attr('id'); 
-	    console.log("this is the id", id)
-	    // var code = id.replace('pgon',''); 
+	    console.log("this is the id", id) 
 	    console.log("dataaaa", data)
-	    //problem here: id is abbrev and data has full string
 	    var data_exists = data[id] !== undefined; 
-	    // console.log("data exists?", data_exists)
-	    // var ts_datum = (id.match(/E|W/) && data_exists)? data[code][year] : 0;
-	    // var ts_datum = (data_exists)? data[code][year] : 0; 
 	    console.log("year", year)
-	   	console.log("data[id][year]", data[id]["Asia_"+ year])
-	    var ts_datum = (data_exists)? data[id]["Asia_"+ year] : 0;
+
+	    switch(option){ 
+	    	case "Asia": 
+	    		console.log("data[id][year]", data[id]["Asia_"+ year])
+	    		var ts_datum = (data_exists)? data[id]["Asia_"+ year] : 0;
+	    		break; 
+	    	case "Africa": 
+	    		console.log("data[id][year]", data[id]["Africa_"+ year])
+	    		var ts_datum = (data_exists)? data[id]["Africa_"+ year] : 0;
+	    		break; 
+	    	case "Europe": 
+	    		console.log("data[id][year]", data[id]["Europe_"+ year])
+	    		var ts_datum = (data_exists)? data[id]["Europe_"+ year] : 0;
+	    		break;
+	    	case "Oceania": 
+	    		console.log("data[id][year]", data[id]["Oceania_"+ year])
+	    		var ts_datum = (data_exists)? data[id]["Oceania_"+ year] : 0;
+	    		break; 
+	    	case "Northern_America": 
+	    		console.log("in northern america")
+	    		console.log("data[id][year]", data[id]["Northern_America_"+ year])
+	    		var ts_datum = (data_exists)? data[id]["Northern_America_"+ year] : 0;
+	    		break;
+	    	case "Latin_America": 
+	    		console.log("in northern america")
+	    		console.log("data[id][year]", data[id]["Latin_America_"+ year])
+	    		var ts_datum = (data_exists)? data[id]["Latin_America_"+ year] : 0;
+	    		break; 
+	    	default: 
+	    		var ts_datum = 0; 
+	    } 
+
 	    console.log("ts dayum", ts_datum)
 	    return (ts_datum === 0)? 'none' : color_scale(options[option].display_ts_data(ts_datum,base));
 	}
 
 	function update_map(trans,year)  //animate changes to house prices in each district - not standard D3 (see comment below *)
 	{
-
 	    year++;
 	    if (year <= end_year) 
 	    { 
@@ -313,19 +424,37 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 
 	function update_district_table(code,year) //update table giving stats for selected district
 	{
-		// console.log("what is data[code]?", data[code])
 	    $('#td_selected_name').text(data[code].name.replace(/_/g,' ')); 
-	    $('#td_selected_pop').text(number_format(data[code]['Asia_'+year.toString()],0));
-	    // var ts_unit = (option === 'earnings' || option === 'index')? 'x' : '';
-	    // if (options[option].insert_ts) {$('#td_selected_ts_datum').text(number_format(data[code][year],options[option].decimal_places).toString()+ts_unit);}
-	    // if (year > data_start_year) {$('#td_selected_RoC').text(number_format(options['RoC'].set_ts_data(data[code]['price_'+year.toString()],data[code]['price_'+(year-1).toString()],year),1)+'%');}
+
+	    switch(option){ 
+	    	case "Asia": 
+	    		$('#td_selected_pop').text(number_format(data[code]['Asia_'+year.toString()],0));
+	    		break; 
+	    	case "Africa": 
+	    		$('#td_selected_pop').text(number_format(data[code]['Africa_'+year.toString()],0));
+	    		break; 
+	    	case "Europe": 
+	    		$('#td_selected_pop').text(number_format(data[code]['Europe_'+year.toString()],0));
+	    		break; 
+	    	case "Oceania": 
+	    		$('#td_selected_pop').text(number_format(data[code]['Oceania_'+year.toString()],0));
+	    		break; 
+	    	case "Northern_America": 
+	    		$('#td_selected_pop').text(number_format(data[code]['Northern_America_'+year.toString()],0));
+	    		break; 
+	    	case "Latin_America": 
+	    		$('#td_selected_pop').text(number_format(data[code]['Latin_America_'+year.toString()],0));
+	    		break; 
+	    	default: 
+	    		$('#td_selected_pop').text("Unavailable?");
+	    }
+  
 	}
 
 	var data = {};  //main data: using this rather than rows because want an associative array
+	console.log("what is rows before error?", rows)
 	for (var i=0;i<rows.length;i++)  //fill data and get maximum and minimum time series data observed
 	{
-	    // data[rows[i].code] = {name: rows[i].name};
-	    // console.log("what is rows?", rows)
 	    console.log("row Abbreviations of i", rows[i])
 
 	    data[rows[i].abbrev] = {abbrev: rows[i].abbrev}
@@ -337,7 +466,12 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 			// data[rows[i].code]['price_'+y.toString()] = rows[i]['price_'+y.toString()];  //average house price for given district and year
 			// data[rows[i].code][y] = rows[i][y];  //time series data for given district and year
 			// console.log("rows[i]", rows[i])
-			data[rows[i].abbrev]['Asia_'+y.toString()] = rows[i]['Asia_'+y.toString()];  //average house price for given district and year
+			data[rows[i].abbrev]['Asia_'+y.toString()] = rows[i]['Asia_'+y.toString()];  
+			data[rows[i].abbrev]['Africa_' + y.toString()] = rows[i]['Africa_'+y.toString()];
+			data[rows[i].abbrev]['Europe_' + y.toString()] = rows[i]['Europe_'+y.toString()];
+			data[rows[i].abbrev]['Oceania_' + y.toString()] = rows[i]['Oceania_'+y.toString()];
+			data[rows[i].abbrev]['Northern_America_' + y.toString()] = rows[i]['Northern_America_'+y.toString()];
+			data[rows[i].abbrev]['Latin_America_' + y.toString()] = rows[i]['Latin_America_'+y.toString()];
 			data[rows[i].abbrev][y] = rows[i][y];  //time series data for given district and year
 	    }
 	    console.log('data after loop', data) 
@@ -351,9 +485,12 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 	var Ncolors = $('stop').length;  //no. colours for key defined in SVG gradient map key (see HTML file)
 	var domain = [];
 	var colors = [];
-	var display_max_ts = options[option].display_ts_data(max_ts,base);  //if using a logarithmic scale or other conversion, the max and min used for the display will be different to the underlying data
-	var display_min_ts = options[option].display_ts_data(min_ts,base);
-
+	console.log("max_ts before display_ts_data", max_ts)
+	console.log("min_ts before display_ts_data", min_ts)
+	var display_max_ts = options[option].display_ts_data(max_ts);  //if using a logarithmic scale or other conversion, the max and min used for the display will be different to the underlying data
+	var display_min_ts = options[option].display_ts_data(min_ts);
+	console.log("display max ts", display_max_ts)
+	console.log("display min ts", display_min_ts)
 	for (var nc=0;nc<Ncolors;nc++) 
 	{
 	    domain[nc] = display_min_ts + (nc/(Ncolors-1))*(display_max_ts-display_min_ts);  
