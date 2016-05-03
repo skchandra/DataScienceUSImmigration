@@ -1,0 +1,122 @@
+ <!doctype html>
+<html>
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Neato Street View</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+      <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script>
+    window.onload = initLinks;
+
+    var year = 2006;
+    var group = 'Asia'; 
+
+    function initLinks() {
+      // document.getElementById("prevLink").onclick = processPrevious;
+      // document.getElementById("nextLink").onclick = processNext;
+    }
+
+    function processPreviousErr() {
+      console.log('in process previous')
+      if (year > 2012) {
+        console.log("year in if statement", year)
+        year = 2006;
+        console.log("year in if statement AFTER", year)
+      }
+      year++;
+      console.log("group", group); 
+      console.log("year", year)
+      var name = year+"_"+group+"_"+"error.png"; 
+      console.log('name', name)
+      document.getElementById("panoramaErr").src = "./images/"+name;
+      return false;
+    }
+
+    function processNextErr() {
+      console.log('in process next')
+      if (year < 2005) {
+        console.log("year in if statement", year)
+        year = 2013;
+      }
+      console.log("year", year)
+      year--;
+      var name = year+"_"+group+"_"+"error.png"; 
+      document.getElementById("panoramaErr").src =  "./images/"+name;
+      return false;
+    }
+
+    function processPreviousAct() {
+      console.log('in process previous')
+      if (year > 2012) {
+        year = 2006;
+      }
+      year++;
+      console.log("group", group); 
+      console.log("year", year)
+      var name = year+"_"+group+"_"+"actexp.png"; 
+      console.log('name', name)
+      document.getElementById("panoramaAct").src = "./images/"+name;
+      return false;
+    }
+
+    function processNextAct() {
+      console.log('in process next')
+      if (year < 2005) {
+        year = 2013;
+      }
+      year--;
+      var name = year+"_"+group+"_"+"actexp.png"; 
+      document.getElementById("panoramaAct").src =  "./images/"+name;
+      return false;
+    }
+
+    function setGroup(g){ 
+      console.log("in set group", g)
+      group = g
+    }
+
+  </script>
+
+  </head>
+  <body>
+
+      <h2> Vizualization of Prominent Actual and Expected Foreign Born Groups </h2>        
+
+
+      <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+        <span class="caret"></span></button>
+
+        <ul class="dropdown-menu">
+          <li onclick="setGroup('Asia')">Asia</li>
+          <li onclick="setGroup('Africa')">Africa</li>
+          <li onclick="setGroup('Europe')">Europe</li>
+          <li onclick="setGroup('Oceania')">Oceania</li>
+          <li onclick="setGroup('Northern America')">Northern America</li>
+          <li onclick="setGroup('Latin America')">Latin America</li>
+        </ul>
+      </div>  
+      <div id="panoramaDivErr"  style="width:100%" align="center">
+        <button onclick = "processNextErr()" style = "width: 50px; height: 50px; float: left"><img src="http://iconshow.me/media/images/ui/ios7-icons/png/512/chevron-left.png" width="5%" style = "width: 5%; position:relative;"></button>
+        <img id="panoramaErr" src = "" alt="waypoint" height= "90%" width = "100%">
+        <button onclick = "processPreviousErr()" style = "width: 50px; height: 50px; float: right"><img src="http://www.pixempire.com/images/preview/right-arrow-icon.jpg" style = "position:relative; width: 5%" ></button>
+      </div>
+
+      <div id="panoramaDivAct"  style="width:100%" align="center">
+        <button onclick = "processNextAct()" style = "width: 50px; height: 50px; float: left"><img src="http://iconshow.me/media/images/ui/ios7-icons/png/512/chevron-left.png" width="5%" style = "width: 5%; position:relative;"></button>
+        <img id="panoramaAct" src = "" alt="waypoint" height= "90%" width = "100%">
+        <button onclick = "processPreviousAct()" style = "width: 50px; height: 50px; float: right"><img src="http://www.pixempire.com/images/preview/right-arrow-icon.jpg" style = "position:relative; width: 5%" ></button>
+      </div>
+
+
+        
+  </body>
+</html> 
