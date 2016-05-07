@@ -6,6 +6,7 @@ import pandas
 # //This class is specifically meant for asians 
 
 class AsianData:
+	# This is all of the data for the Asian population
 	def __init__(self):
 		self.asian_data_2014 = pandas.read_csv("Asian_ACS_Foreign_Born_Characteristics_2014.csv")
 
@@ -149,6 +150,7 @@ class AsianData:
 
 
 class African_NorthernAmerica_and_OceaniaData: 
+	# This is all of the data for the foreign born group from Northern American, Africa, and Oceania
 	def __init__(self):
 		self.african_northernamerica_and_oceania_data_2014 = pandas.read_csv("African_Northern_America_and_Oceania_ACS_Foreign_Born_Characteristics_2014.csv")
 
@@ -223,12 +225,6 @@ class African_NorthernAmerica_and_OceaniaData:
 		bachelors_degree_born_in_Africa = self.african_northernamerica_and_oceania_data_2014["HC02_EST_VC68"].iloc[1]
 		graduate_degree_born_in_Africa = self.african_northernamerica_and_oceania_data_2014["HC02_EST_VC69"].iloc[1]
 
-		# less_than_hs_grad_born_in_Africa = float(less_than_hs_grad_born_in_Africa) * int(educ_attainment_pop_born_in_Africa) /100
-		# hs_grad_total_born_in_Africa = float(hs_grad_total_born_in_Africa) * int(educ_attainment_pop_born_in_Africa)/100
-		# some_college_born_in_Africa = float(some_college_born_in_Africa) * int(educ_attainment_pop_born_in_Africa)/100
-		# bachelors_degree_born_in_Africa = float(bachelors_degree_born_in_Africa)* int(educ_attainment_pop_born_in_Africa)/100
-		# graduate_degree_born_in_Africa = float(graduate_degree_born_in_Africa)* int(educ_attainment_pop_born_in_Africa)/100
-
  		return [educ_attainment_pop_born_in_Africa, less_than_hs_grad_born_in_Africa, hs_grad_total_born_in_Africa, 
 		 some_college_born_in_Africa, bachelors_degree_born_in_Africa, graduate_degree_born_in_Africa]
 
@@ -240,12 +236,6 @@ class African_NorthernAmerica_and_OceaniaData:
 		bachelors_degree_born_in_Northern_America = self.african_northernamerica_and_oceania_data_2014["HC03_EST_VC68"].iloc[1]
 		graduate_degree_born_in_Northern_America = self.african_northernamerica_and_oceania_data_2014["HC03_EST_VC69"].iloc[1]
 
-		# less_than_hs_grad_born_in_Northern_America = float(less_than_hs_grad_born_in_Northern_America)*int(educ_attainment_pop_born_in_Northern_America)/100
-		# hs_grad_total_born_in_Northern_America = float(hs_grad_total_born_in_Northern_America)*int(educ_attainment_pop_born_in_Northern_America)/100
-		# some_college_born_in_Northern_America = float(some_college_born_in_Northern_America) *int(educ_attainment_pop_born_in_Northern_America)/100
-		# bachelors_degree_born_in_Northern_America = float(bachelors_degree_born_in_Northern_America)*int(educ_attainment_pop_born_in_Northern_America)/100
-		# graduate_degree_born_in_Northern_America = float(graduate_degree_born_in_Northern_America)*int(educ_attainment_pop_born_in_Northern_America)/100
-
 		return [educ_attainment_pop_born_in_Northern_America, less_than_hs_grad_born_in_Northern_America, hs_grad_total_born_in_Northern_America, 
 		 some_college_born_in_Northern_America, bachelors_degree_born_in_Northern_America, graduate_degree_born_in_Northern_America]
 
@@ -256,12 +246,6 @@ class African_NorthernAmerica_and_OceaniaData:
 		some_college_born_in_Oceania = self.african_northernamerica_and_oceania_data_2014["HC04_EST_VC67"].iloc[1]
 		bachelors_degree_born_in_Oceania = self.african_northernamerica_and_oceania_data_2014["HC04_EST_VC68"].iloc[1]
 		graduate_degree_born_in_Oceania = self.african_northernamerica_and_oceania_data_2014["HC04_EST_VC69"].iloc[1]
-
-		# less_than_hs_grad_born_in_Oceania = float(less_than_hs_grad_born_in_Oceania)*int(educ_attainment_pop_born_in_Oceania)/100
-		# hs_grad_total_born_in_Oceania = float(hs_grad_total_born_in_Oceania)*int(educ_attainment_pop_born_in_Oceania)/100
-		# some_college_born_in_Oceania = float(some_college_born_in_Oceania)*int(educ_attainment_pop_born_in_Oceania)/100
-		# bachelors_degree_born_in_Oceania = float(bachelors_degree_born_in_Oceania)*int(educ_attainment_pop_born_in_Oceania)/100
-		# graduate_degree_born_in_Oceania = float(graduate_degree_born_in_Oceania)*int(educ_attainment_pop_born_in_Oceania)/100 
 
 		return [educ_attainment_pop_born_in_Oceania, less_than_hs_grad_born_in_Oceania, hs_grad_total_born_in_Oceania, 
 		 some_college_born_in_Oceania, bachelors_degree_born_in_Oceania, graduate_degree_born_in_Oceania]
@@ -380,7 +364,7 @@ class EuropeanData:
 	def __init__(self):
 		self.european_data_2014 = pandas.read_csv("Europe_ACS_Foreign_Born_Characteristics_2014.csv")
 
-# //enrolled in school
+# This contained all of the data for foreign born group from Europe
 	def enrolled_in_school_total(self): 
 		pop_3_years_and_older_enrolled_in_school_total = self.european_data_2014["HC01_EST_VC57"].iloc[1]
 		pop_3_years_and_older_enrolled_in_school_total_nursery = self.european_data_2014["HC01_EST_VC58"].iloc[1]
@@ -504,26 +488,6 @@ class EuropeanData:
     	float(hs_grad_total_born_in_Northern_and_Western_Europe),
     	float(hs_grad_total_born_in_Southern_and_Eastern_Europe )]
 
-  #   def some_college_fraction_of_whole(self):
-  #   	educ_attainment_pop_total = self.european_data_2014["HC01_EST_VC64"].iloc[1]
-		# educ_attainment_pop_born_in_Europe = self.european_data_2014["HC02_EST_VC64"].iloc[1]
-		# educ_attainment_pop_born_in_Northern_and_Western_Europe = self.european_data_2014["HC03_EST_VC64"].iloc[1]
-		# educ_attainment_pop_born_in_Southern_and_Eastern_Europe = self.european_data_2014["HC04_EST_VC64"].iloc[1]
-
-		# total = int(educ_attainment_pop_total)/100
-		# educ_attainment_pop_born_in_Europe = int(educ_attainment_pop_born_in_Europe)/100
-		# educ_attainment_pop_born_in_Northern_and_Western_Europe = int(educ_attainment_pop_born_in_Northern_and_Western_Europe)/100
-		# educ_attainment_pop_born_in_Southern_and_Eastern_Europe = int(educ_attainment_pop_born_in_Southern_and_Eastern_Europe)/100 
-
-		# some_college_total = self.european_data_2014["HC01_EST_VC67"].iloc[1]
-		# some_college_total_born_in_Europe = self.european_data_2014["HC02_EST_VC67"].iloc[1]
-		# some_college_total_born_in_Northern_and_Western_Europe = self.european_data_2014["HC03_EST_VC67"].iloc[1]
-		# some_college_total_born_in_Southern_and_Eastern_Europe = self.european_data_2014["HC04_EST_VC67"].iloc[1] 
-
-		# return [float(some_college_total_born_in_Europe), 
-  #   	float(some_college_total_born_in_Northern_and_Western_Europe),
-  #   	float(some_college_total_born_in_Southern_and_Eastern_Europe)]
-
   	def bachelors_degree_fraction_of_whole(self): 
 		educ_attainment_pop_total = self.european_data_2014["HC01_EST_VC64"].iloc[1]
 		educ_attainment_pop_born_in_Europe = self.european_data_2014["HC02_EST_VC64"].iloc[1]
@@ -586,6 +550,7 @@ class EuropeanData:
 
 
 class LatinAmericaData: 
+	# This class contains all of the information from the forrign born group from Latin America
 	def __init__(self):
 		self.latin_america_data_2014 = pandas.read_csv("Latin_America_ACS_Foreign_Born_Characteristics_2014.csv")
 
@@ -734,7 +699,7 @@ class LatinAmericaData:
 		return [float(less_than_hs_grad_born_in_Latin_America), 
     	float(less_than_hs_grad_born_in_Mexico),
     	float(less_than_hs_grad_born_in_Central_America), 
-    	float(less_than_hs_grad_born_in_Carribean)
+    	float(less_than_hs_grad_born_in_Carribean),
     	float(less_than_hs_grad_born_in_South_America)]
 
 	def hs_grad_fraction_of_whole(self): 

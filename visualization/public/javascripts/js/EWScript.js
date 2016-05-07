@@ -580,7 +580,7 @@ function EW_house_price(option,time_conversion,start_year)  //time_conversion is
 	    .attr('x',0)
 	    .attr('y',0)
 	    .style('fill','grey')
-//	    .style('font-size','12px')
+	    .style('font-size','300px')
 	    .data(d3.range(anim_start_year,(end_year+1),1))
 	    .enter()
 	    .append('text')
